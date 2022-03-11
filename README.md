@@ -18,6 +18,24 @@ Features
 - HTML and SVG tags.
 - Hotkey and interval events support.
 
+
+Demo
+----
+
+[![Open in Streamlit][share_badge]][share_link]
+
+[![Preview][share_img]][share_link]
+
+[share_badge]: https://static.streamlit.io/badges/streamlit_badge_black_white.svg
+[share_link]: https://share.streamlit.io/okld/streamlit-gallery/main?p=elements
+[share_img]: https://raw.githubusercontent.com/okld/streamlit-elements/main/preview.png
+
+[github_badge]: https://badgen.net/badge/icon/GitHub?icon=github&color=black&label
+[github_link]: https://github.com/okld/streamlit-elements
+
+[pypi_badge]: https://badgen.net/pypi/v/streamlit-elements?icon=pypi&color=black&label
+[pypi_link]: https://pypi.org/project/streamlit-elements
+
 Getting started
 ---------------
 
@@ -146,21 +164,3 @@ with elements("dashboard_examples"):
 with elements("events_examples"):
     pass
 ```
-
-
-Demo
-----
-
-[![Open in Streamlit][share_badge]][share_link]
-
-[![Preview][share_img]][share_link]
-
-[share_badge]: https://static.streamlit.io/badges/streamlit_badge_black_white.svg
-[share_link]: https://share.streamlit.io/okld/streamlit-gallery/main?p=elements
-[share_img]: https://raw.githubusercontent.com/okld/streamlit-elements/main/preview.png
-
-[github_badge]: https://badgen.net/badge/icon/GitHub?icon=github&color=black&label
-[github_link]: https://github.com/okld/streamlit-elements
-
-[pypi_badge]: https://badgen.net/pypi/v/streamlit-elements?icon=pypi&color=black&label
-[pypi_link]: https://pypi.org/project/streamlit-elements
