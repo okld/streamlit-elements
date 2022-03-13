@@ -1,3 +1,4 @@
+import inspect
 import json
 import re
 
@@ -9,7 +10,7 @@ from streamlit_elements.core import format
 from streamlit_elements.core.exceptions import ElementsFrontendError
 
 CALLBACK_KEY = f"_{__name__}.elements_callback_manager"
-FORBIDDEN_ARGS_CHAR_RE = re.compile("\W+")
+FORBIDDEN_PARAM_CHAR_RE = re.compile("\W+")
 
 
 def _patch_register_widget(register_widget):
@@ -58,51 +59,74 @@ class ElementsCallbackManager:
         # every callback ID has the same length. This is used to order
         # for call ordering.
         callback_id = f"{self._key}{len(self._callbacks):08}"
-        self._callbacks[callback_id] = callback.function
+        self._callbacks[callback_id] = callback.callback
         callback.serialize(callback_id)
 
         return callback
 
     def dispatch(self):
         # Retrieve data and convert it to json.
-        data = json.loads(session_state[self._key], object_hook=lambda d: ElementsCallbackData(d))
+        frontend_data = json.loads(session_state[self._key], object_hook=lambda d: ElementsCallbackData(d))
 
-        if "error" in data:
-            raise ElementsFrontendError(f"In elements frame '{self._key}': {data.error}")
+        if "error" in frontend_data:
+            raise ElementsFrontendError(f"In elements frame '{self._key}': {frontend_data.error}")
 
-        # Sort data by key.
-        data = {k: v for k, v in sorted(data.items())}
+        # Sort data by key to make sure callbacks are called in order.
+        frontend_data = {k: v for k, v in sorted(frontend_data.items())}
 
-        for callback_id, params in data.items():
+        for callback_id, frontend_params in frontend_data.items():
             if callback_id in self._callbacks:
-                self._callbacks[callback_id](**params)
+                callback = self._callbacks[callback_id]
+
+                # If callback expect a parameter not defined in params, pass None by default.
+                # This will be the case for any param name that starts with an underscore.
+                undefined_params = (
+                    param
+                    for param in _get_parameters(callback)
+                    if param not in frontend_params.keys()
+                )
+
+                for param in undefined_params:
+                    frontend_params[param] = None
+
+                callback(**frontend_params)
 
 
 class ElementsCallback:
-    __slots__ = ("_function", "_args", "_lazy", "_serialized")
+    __slots__ = ("_callback", "_params", "_lazy", "_serialized")
 
-    def __init__(self, function, args=None, lazy=False):
-        self._function = function
-        self._lazy = lazy
+    def __init__(self, callback, params=None):
+        self._callback = callback
         self._serialized = "()=>{}"
-        self._args = args if args is not None else function.__code__.co_varnames
-        self._args = (FORBIDDEN_ARGS_CHAR_RE.sub("", key) for key in self._args)
+        self._lazy = False
+
+        if params is not None:
+            self._params = params
+        else:
+            # If no params specified, get them from callback's signature
+            self._params = _get_parameters(callback)
+
+        # Make sure params don't contain forbidden characters.
+        self._params = tuple(FORBIDDEN_PARAM_CHAR_RE.sub("", key) for key in self._params)
 
     @property
-    def function(self):
-        return self._function
+    def callback(self):
+        return self._callback
+
+    def lazy(self):
+        self._lazy = True
 
     def serialize(self, callback_id):
-        args = ",".join(self._args)
-        data = f"{format.json(callback_id)}:{{{args}}}"
+        params = ",".join(self._params)
+        data = f"{format.json(callback_id)}:{{{params}}}"
 
         if self._lazy:
             # When widget changes, store data in state.
-            self._serialized = f"({args})=>{{window.lazyData={{...window.lazyData,{data}}}}}"
+            self._serialized = f"({params})=>{{window.lazyData={{...window.lazyData,{data}}};}}"
         else:
-            # When widget changes, send data and state values to Streamlit.
-            # Then clear state.
-            self._serialized = f"({args})=>send({{{data}}})"
+            # When widget changes, send data and lazy data to Streamlit.
+            # Lazy data is cleared once sent.
+            self._serialized = f"({params})=>{{send({{...window.lazyData,{data}}});window.lazyData={{}};}}"
 
     def __repr__(self):
         return self._serialized
@@ -112,3 +136,11 @@ class ElementsCallbackData(dict):
 
     def __getattr__(self, value):
         return self.__getitem__(value)
+
+
+def _get_parameters(function):
+    return (
+        name
+        for name, parameter in inspect.signature(function).parameters.items()
+        if parameter.kind == parameter.POSITIONAL_OR_KEYWORD
+    )

@@ -69,12 +69,10 @@ const getReplacer = () => {
 };
 
 const send = (data: Record<string, any>) => {
-  // Add lazyData, a timestamp to make sure data is unique, which will force Streamlit to update.
-  data = { ...window.lazyData, ...data, timestamp: Date.now() }
-  // Send data to Streamlit
+  // Add a timestamp to make sure data is unique to force Streamlit to update.
+  data = { ...data, timestamp: Date.now() }
+  // Send data to Streamlit.
   Streamlit.setComponentValue(JSON.stringify(data, getReplacer()))
-  // Clear lazy data.
-  window.lazyData = {}
 }
 
 const make = (module: string, element: string, props: any, children: React.ReactNode[]) => {
