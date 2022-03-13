@@ -24,8 +24,8 @@ def pascal_case(string):
     return string.title().replace("_", "")
 
 
-def lower_case(string):
-    """Convert a string from snake_case to lowercase."""
+def lower_case_no_underscore(string):
+    """Convert a string from snake_case to lowercase with no underscore."""
     return string.replace("_", "").lower()
 
 
