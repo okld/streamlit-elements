@@ -14,7 +14,7 @@ const Hotkey = ({ sequence, callback, bindInputs, overrideDefault }: ElementsEve
     })
 
     return () => {
-      Mousetrap.reset()
+      Mousetrap.unbind(sequence)
     }
   })
 

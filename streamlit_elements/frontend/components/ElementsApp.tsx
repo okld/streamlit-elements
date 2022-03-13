@@ -98,7 +98,7 @@ const ElementsApp = ({ args, theme }: ElementsAppProps) => {
     Mousetrap.bind("r", () => { send({}) })
 
     return () => {
-      Mousetrap.reset()
+      Mousetrap.unbind("r")
     }
   }, [args.js])
 
