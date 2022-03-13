@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react"
-import { Streamlit, withStreamlitConnection } from "streamlit-component-lib"
-import { dequal } from "dequal/lite"
+import Mousetrap from "mousetrap"
 import { ErrorBoundary } from "react-error-boundary"
 import { NoSsr } from "@mui/material"
-import Mousetrap from "mousetrap"
+import { Streamlit, withStreamlitConnection } from "streamlit-component-lib"
+import { dequal } from "dequal/lite"
+import { jsx } from '@emotion/react'
 
 import ElementsResizer from "./ElementsResizer"
 import ElementsTheme from "./ElementsTheme"
@@ -18,7 +19,6 @@ import loadMuiIcons from "./modules/mui/Icons"
 import loadMuiLab from "./modules/mui/Lab"
 import loadNivo from "./modules/charts/Nivo"
 import loadPlayer from "./modules/media/Player"
-import loadSvg from "./modules/dom/SVG"
 
 const loaders: ElementsLoaderRecord = {
   // Charts
@@ -29,7 +29,6 @@ const loaders: ElementsLoaderRecord = {
 
   // DOM
   domHTML: loadHtml,
-  domSVG: loadSvg,
 
   // Events
   eventHotkey: loadHotkey,
@@ -75,7 +74,7 @@ const send = (data: Record<string, any>) => {
   Streamlit.setComponentValue(JSON.stringify(data, getReplacer()))
 }
 
-const make = (module: string, element: string, props: any, children: React.ReactNode[]) => {
+const render = (module: string, element: string, props: any, children: React.ReactNode[]) => {
   if (!loaders.hasOwnProperty(module)) {
     throw new Error(`Module ${module} does not exist`)
   }
@@ -85,7 +84,7 @@ const make = (module: string, element: string, props: any, children: React.React
     throw new Error(`Element ${element} does not exist in module ${module}`)
   }
 
-  return React.createElement(loadedElement, props, ...children)
+  return jsx(loadedElement, props, ...children)
 }
 
 const ElementsApp = ({ args, theme }: ElementsAppProps) => {
@@ -108,7 +107,7 @@ const ElementsApp = ({ args, theme }: ElementsAppProps) => {
       <NoSsr>
         <ElementsTheme theme={theme}>
           <ErrorBoundary fallback={<div/>} onError={error => send({ error: error.message })}>
-            {React.createElement("div", null, ...new Function("make", "send", "window", js)(make, send, window))}
+            {jsx("div", null, ...new Function("render", "send", "window", js)(render, send, window))}
           </ErrorBoundary>
         </ElementsTheme>
       </NoSsr>
