@@ -1,6 +1,6 @@
 from streamlit_elements.core.module import ElementsModuleStatic
 
-__all__ = ["player"]
+__all__ = ["media"]
 
 
 class Player(ElementsModuleStatic):
@@ -12,4 +12,14 @@ class Player(ElementsModuleStatic):
         self._create_element("Player")(url=url, **props)
 
 
-player = Player()
+class Media:
+
+    def __init__(self):
+        self._player = Player()
+
+    @property
+    def player(self):
+        return self._player
+
+
+media = Media()
