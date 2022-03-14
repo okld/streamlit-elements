@@ -29,8 +29,16 @@ class Interval(ElementsModuleStatic):
 class Events:
 
     def __init__(self):
-        self.on_hotkey = Hotkey()
-        self.on_interval = Interval()
+        self._on_hotkey = Hotkey()
+        self._on_interval = Interval()
+
+    @property
+    def on_hotkey(self):
+        return self._on_hotkey
+
+    @property
+    def on_interval(self):
+        return self._on_interval
 
 
 event = Events()
