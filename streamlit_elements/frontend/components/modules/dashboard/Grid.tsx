@@ -5,7 +5,7 @@ import "react-resizable/css/styles.css"
 
 const ResponsiveGridLayout = WidthProvider(Responsive)
 
-const Dashboard = ({ children, ...props }: ElementsDashboardProps) =>
+const Grid = ({ children, ...props }: ElementsDashboardProps) =>
   <ResponsiveGridLayout {...props}>
     {[children].flat().map(child => {
       if (React.isValidElement(child) && child.key !== undefined) {
@@ -26,7 +26,7 @@ const Dashboard = ({ children, ...props }: ElementsDashboardProps) =>
     })}
   </ResponsiveGridLayout>
 
-const elements: ElementsRecord = { Dashboard }
-const loadDashboard: ElementsLoader = element => elements[element]
+const elements: ElementsRecord = { Grid }
+const loadGrid: ElementsLoader = element => elements[element]
 
-export default loadDashboard
+export default loadGrid

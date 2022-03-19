@@ -1,25 +1,7 @@
-from streamlit_elements.core.module import ElementsModuleStatic
-
-__all__ = ["media"]
-
-
-class Player(ElementsModuleStatic):
-
-    def __init__(self):
-        super().__init__("mediaPlayer")
-
-    def __call__(self, url, **props):
-        self._create_element("Player")(url=url, **props)
+from streamlit_elements.core.frame import new_element
 
 
 class Media:
 
-    def __init__(self):
-        self._player = Player()
-
-    @property
-    def player(self):
-        return self._player
-
-
-media = Media()
+    def Player(self, url, **props):
+        new_element("mediaPlayer", "Player")(url=url, **props)

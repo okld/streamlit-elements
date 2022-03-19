@@ -6,7 +6,6 @@ from streamlit import session_state
 from streamlit.components.v1 import components
 from typing import Callable
 
-from streamlit_elements.core import format
 from streamlit_elements.core.exceptions import ElementsFrontendError
 
 CALLBACK_KEY = f"_{__name__}.elements_callback_manager"
@@ -118,7 +117,7 @@ class ElementsCallback:
 
     def serialize(self, callback_id):
         params = ",".join(self._params)
-        data = f"{format.json(callback_id)}:{{{params}}}"
+        data = f"{json.dumps(callback_id)}:{{{params}}}"
 
         if self._lazy:
             # When widget changes, store data in state.

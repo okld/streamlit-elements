@@ -1,4 +1,4 @@
-from streamlit_elements.core import format
+import json
 
 
 class Element:
@@ -6,8 +6,8 @@ class Element:
 
     def __init__(self, frame, module, element):
         self._frame = frame
-        self._module = format.json(module)
-        self._element = format.json(element)
+        self._module = json.dumps(module)
+        self._element = json.dumps(element)
         self._props = ""
         self._children = ""
 
@@ -21,8 +21,13 @@ class Element:
         self._frame.register_element(self)
 
         # Serialize and stringify props and children.
+        # Leading underscores in prop keys are stripped to allow passing props
+        # that are also python keywords:
+        #
+        # >>> mui.collapse(in=True)  # Syntax error: 'in' is a python keyword
+        # >>> mui.collapse(in_=True)  # Works. React equivalent: <Collapse in={true} />
         self._props += ",".join(
-            format.json(format.camel_case(key)) + ":" + self._frame.serialize(value)
+            json.dumps(key.rstrip("_")) + ":" + self._frame.serialize(value)
             for key, value in props.items()
         )
         self._children += ",".join(

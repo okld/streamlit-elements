@@ -9,9 +9,9 @@ import { jsx } from '@emotion/react'
 import ElementsResizer from "./ElementsResizer"
 import ElementsTheme from "./ElementsTheme"
 
-import loadDashboard from "./modules/dashboard/Dashboard"
+import loadGrid from "./modules/dashboard/Grid"
 import loadHotkey from "./modules/events/Hotkey"
-import loadHtml from "./modules/dom/HTML"
+import loadHtml from "./modules/html/HTML"
 import loadInterval from "./modules/events/Interval"
 import loadMonaco from "./modules/editors/Monaco"
 import loadMuiElements from "./modules/mui/Elements"
@@ -25,10 +25,10 @@ const loaders: ElementsLoaderRecord = {
   chartNivo: loadNivo,
 
   // Dashboard
-  dashboard: loadDashboard,
+  dashboardGrid: loadGrid,
 
-  // DOM
-  domHTML: loadHtml,
+  // HTML
+  html: loadHtml,
 
   // Events
   eventHotkey: loadHotkey,
@@ -103,15 +103,15 @@ const ElementsApp = ({ args, theme }: ElementsAppProps) => {
   }, [args.js])
 
   return (
-    <ElementsResizer>
-      <NoSsr>
-        <ElementsTheme theme={theme}>
-          <ErrorBoundary fallback={<div/>} onError={error => send({ error: error.message })}>
-            {jsx("div", null, ...new Function("render", "send", "window", js)(render, send, window))}
-          </ErrorBoundary>
-        </ElementsTheme>
-      </NoSsr>
-    </ElementsResizer>
+    <NoSsr>
+      <ElementsResizer>
+          <ElementsTheme theme={theme}>
+            <ErrorBoundary fallback={<div/>} onError={error => send({ error: error.message })}>
+              {jsx("div", null, ...new Function("render", "send", "window", js)(render, send, window))}
+            </ErrorBoundary>
+          </ElementsTheme>
+      </ElementsResizer>
+    </NoSsr>
   )
 }
 

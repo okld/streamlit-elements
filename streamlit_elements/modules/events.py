@@ -1,44 +1,18 @@
-from streamlit_elements.core.module import ElementsModuleStatic
-
-__all__ = ["event"]
-
-
-class Hotkey(ElementsModuleStatic):
-
-    def __init__(self):
-        super().__init__("eventHotkey")
-
-    def __call__(self, sequence, callback, bind_inputs=False, override_default=False):
-        self._create_element("Hotkey")(
-            sequence=sequence,
-            callback=callback,
-            bind_inputs=bind_inputs,
-            override_default=override_default,
-        )
-
-
-class Interval(ElementsModuleStatic):
-
-    def __init__(self):
-        super().__init__("eventInterval")
-
-    def __call__(self, seconds, callback):
-        self._create_element("Interval")(seconds=seconds, callback=callback)
+from streamlit_elements.core.frame import new_element
 
 
 class Events:
 
-    def __init__(self):
-        self._on_hotkey = Hotkey()
-        self._on_interval = Interval()
+    def Hotkey(self, sequence, callback, bindInputs=False, overrideDefault=False):
+        new_element("eventHotkey", "Hotkey")(
+            sequence=sequence,
+            callback=callback,
+            bindInputs=bindInputs,
+            overrideDefault=overrideDefault,
+        )
 
-    @property
-    def on_hotkey(self):
-        return self._on_hotkey
-
-    @property
-    def on_interval(self):
-        return self._on_interval
-
-
-event = Events()
+    def Interval(self, seconds, callback):
+        new_element("eventInterval", "Interval")(
+            seconds=seconds,
+            callback=callback
+        )

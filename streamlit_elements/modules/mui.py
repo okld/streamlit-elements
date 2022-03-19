@@ -1,29 +1,32 @@
-from streamlit_elements.core.module import ElementsModuleDynamic
-
-__all__ = ["mui"]
+from streamlit_elements.core.frame import new_element
 
 
-class MUIIcons(ElementsModuleDynamic):
+class MUIIcons:
     """MUI Icons (https://mui.com/components/material-icons)"""
 
-    def __init__(self):
-        super().__init__("muiIcons")
+    def __getattr__(self, element):
+        return new_element("muiIcons", element)
+
+    def __getitem__(self, element):
+        return new_element("muiIcons", element)
 
 
-class MUILab(ElementsModuleDynamic):
+class MUILab:
     """MUI Lab (https://mui.com)"""
 
-    def __init__(self):
-        super().__init__("muiLab")
+    def __getattr__(self, element):
+        return new_element("muiLab", element)
+
+    def __getitem__(self, element):
+        return new_element("muiLab", element)
 
 
-class MUIElements(ElementsModuleDynamic):
+class MUI:
     """MUI Elements (https://mui.com)"""
 
     __slots__ = ("_icon", "_lab")
 
     def __init__(self):
-        super().__init__("muiElements")
         self._icon = MUIIcons()
         self._lab = MUILab()
 
@@ -35,5 +38,8 @@ class MUIElements(ElementsModuleDynamic):
     def lab(self):
         return self._lab
 
+    def __getattr__(self, element):
+        return new_element("muiElements", element)
 
-mui = MUIElements()
+    def __getitem__(self, element):
+        return new_element("muiElements", element)
