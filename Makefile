@@ -20,7 +20,7 @@ upgrade: upgrade-frontend upgrade-wheel
 
 .PHONY: upgrade-frontend
 upgrade-frontend: dev
-	$(NPM) install --global npm-check-updates
+	npm install --global npm-check-updates
 	$(NCU) --upgrade
 	$(NPM) update
 
