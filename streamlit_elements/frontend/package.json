@@ -2,10 +2,13 @@
   "name": "streamlit-elements",
   "private": true,
   "scripts": {
-    "dev": "next dev -H 127.0.0.1 -p 3001",
-    "build": "next build && next export -o build",
+    "dev": "npm run build-public && next dev -H 127.0.0.1 -p 3001",
+    "build": "npm run build-public && next build && next export -o build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "build-public": "npm run copy-monaco && npm run del-source-maps",
+    "del-source-maps": "find public -name '*.js' | xargs sed -i '/sourceMappingURL/d'",
+    "copy-monaco": "mkdir -p public/monaco && rm -rf public/monaco/vs && cp -r node_modules/monaco-editor/min/vs public/monaco/vs"
   },
   "dependencies": {
     "@emotion/react": "^11.8.2",
