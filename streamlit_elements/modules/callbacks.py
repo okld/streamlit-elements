@@ -1,8 +1,7 @@
-from typing import Callable, List, Union
+from functools import partial
 from streamlit import session_state
 from streamlit_elements.core.callback import ElementsCallback
-
-__all__ = ["sync", "lazy"]
+from typing import Callable, List, Union
 
 
 def sync(*session_state_keys: List[str]):

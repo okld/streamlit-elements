@@ -1,4 +1,4 @@
-from streamlit_elements.modules.callbacks import sync, lazy
+from streamlit_elements.modules.callbacks import sync, lazy, partial
 from streamlit_elements.modules.dashboard import Dashboard
 from streamlit_elements.modules.editors import Editors
 from streamlit_elements.modules.events import Events
@@ -7,7 +7,18 @@ from streamlit_elements.modules.media import Media
 from streamlit_elements.modules.mui import MUI
 from streamlit_elements.modules.nivo import Nivo
 
-__all__ = ["sync", "lazy", "dashboard", "editor", "event", "html", "media", "mui", "nivo"]
+__all__ = [
+    "dashboard",
+    "editor",
+    "event",
+    "html",
+    "lazy",
+    "media",
+    "mui",
+    "nivo",
+    "partial",
+    "sync",
+]
 
 
 dashboard = Dashboard()
