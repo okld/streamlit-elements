@@ -8,7 +8,7 @@ from typing import Callable
 
 from streamlit_elements.core.exceptions import ElementsFrontendError
 
-CALLBACK_KEY = f"_{__name__}.elements_callback_manager"
+CALLBACK_KEY = f"{__name__}.elements_callback_manager"
 FORBIDDEN_PARAM_CHAR_RE = re.compile("\W+")
 
 

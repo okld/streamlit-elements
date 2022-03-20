@@ -8,7 +8,7 @@ from streamlit_elements.core.callback import ElementsCallbackManager, ElementsCa
 from streamlit_elements.core.element import Element
 from streamlit_elements.core.render import render_component
 
-ELEMENTS_FRAME_KEY = f"_{__name__}.elements_frame"
+ELEMENTS_FRAME_KEY = f"{__name__}.elements_frame"
 
 
 def get_elements_frame():
