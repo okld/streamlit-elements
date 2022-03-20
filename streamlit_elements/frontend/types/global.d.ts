@@ -20,7 +20,7 @@ declare global {
     children: React.ReactChild | React.ReactChild[]
   }
 
-  type ElementsDashboardProps = {
+  type ElementsDashboardGridProps = {
     props: Record<string, any>
     children: React.ReactChild[]
   }
