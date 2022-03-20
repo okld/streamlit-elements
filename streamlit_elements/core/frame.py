@@ -25,6 +25,7 @@ def new_frame(key):
         yield
         return
 
+    key = f"{ELEMENTS_FRAME_KEY}.{key}"
     frame = ElementsFrame(key)
     session_state[ELEMENTS_FRAME_KEY] = frame
 
