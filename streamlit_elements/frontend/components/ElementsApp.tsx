@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react"
 import Mousetrap from "mousetrap"
 import { ErrorBoundary } from "react-error-boundary"
-import { NoSsr } from "@mui/material"
 import { Streamlit, withStreamlitConnection } from "streamlit-component-lib"
 import { dequal } from "dequal/lite"
 import { jsx } from '@emotion/react'
@@ -103,15 +102,13 @@ const ElementsApp = ({ args, theme }: ElementsAppProps) => {
   }, [args.js])
 
   return (
-    <NoSsr>
-      <ElementsResizer>
-          <ElementsTheme theme={theme}>
-            <ErrorBoundary fallback={<div/>} onError={error => send({ error: error.message })}>
-              {jsx("div", null, ...new Function("render", "send", "window", js)(render, send, window))}
-            </ErrorBoundary>
-          </ElementsTheme>
-      </ElementsResizer>
-    </NoSsr>
+    <ElementsResizer>
+      <ElementsTheme theme={theme}>
+        <ErrorBoundary fallback={<div/>} onError={error => send({ error: error.message })}>
+          {jsx("div", null, ...new Function("render", "send", "window", js)(render, send, window))}
+        </ErrorBoundary>
+      </ElementsTheme>
+    </ElementsResizer>
   )
 }
 
