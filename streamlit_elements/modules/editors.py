@@ -1,7 +1,5 @@
 from streamlit_elements.core.frame import new_element
 
-__all__ = ["editor"]
-
 
 class Editors:
 
@@ -12,6 +10,3 @@ class Editors:
     def MonacoDiff(self, **props):
         """Monaco editor (https://github.com/react-monaco-editor/react-monaco-editor)"""
         new_element("editorMonaco", "Diff")(**props)
-
-
-editor = Editors()
