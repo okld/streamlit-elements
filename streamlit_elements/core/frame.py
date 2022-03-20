@@ -48,35 +48,32 @@ def new_element(module, element):
 
 
 class ElementsFrame:
-    __slots__ = ("_callback_manager", "_children", "_parents", "_key")
+    __slots__ = ("_callback_manager", "_serialized", "_children", "_parents", "_key")
 
     def __init__(self, key):
         self._callback_manager = ElementsCallbackManager(key)
-        self._children = {}
+        self._serialized = set()
+        self._children = []
         self._parents = []
         self._key = key
 
     def register_element(self, element):
         if element not in self._children:
-            self._children[element] = False
-
-    def ignore_element(self, element):
-        if element in self._children:
-            self._children[element] = True
+            self._children.append(element)
 
     def capture_children(self):
         self._parents.append(self._children)
-        self._children = {}
+        self._children = []
 
     def save_children(self, element):
         children = self._children
         self._children = self._parents.pop()
 
-        element(*(child for child, ignored in children.items() if not ignored))
+        element(*(child for child in children if child not in self._serialized))
 
     def serialize(self, obj):
         if isinstance(obj, Element):
-            self.ignore_element(obj)
+            self._serialized.add(obj)
             return repr(obj)
 
         elif isinstance(obj, (Callable, ElementsCallback)):
@@ -97,4 +94,4 @@ class ElementsFrame:
             return json.dumps(obj)
 
     def __repr__(self):
-        return self.serialize(child for child, ignored in self._children.items() if not ignored)
+        return self.serialize(child for child in self._children if child not in self._serialized)
