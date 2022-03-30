@@ -92,7 +92,7 @@ class ElementsCallbackManager:
 
 
 class ElementsCallback:
-    __slots__ = ("_callback", "_params", "_lazy", "_serialized")
+    __slots__ = ("_callback", "_serialized", "_lazy", "_params")
 
     def __init__(self, callback, params=None):
         self._callback = callback
@@ -132,6 +132,7 @@ class ElementsCallback:
 
 
 class ElementsCallbackData(dict):
+    __slots__ = ()
 
     def __getattr__(self, value):
         return self.__getitem__(value)

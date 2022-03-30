@@ -21,7 +21,8 @@ def get_elements_frame():
 @contextmanager
 def new_frame(key):
     if ELEMENTS_FRAME_KEY in session_state:
-        # Ignore this frame.
+        # An upper frame already exists. Elements created inside this
+        # inner frame will be registered in the upper frame instead.
         yield
         return
 

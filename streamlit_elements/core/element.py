@@ -24,7 +24,7 @@ class Element:
         # Leading underscores in prop keys are stripped to allow passing props
         # that are also python keywords:
         #
-        # >>> mui.collapse(in=True)  # Syntax error: 'in' is a python keyword
+        # >>> mui.collapse(in=True)   # Syntax error: 'in' is a python keyword
         # >>> mui.collapse(in_=True)  # Works. React equivalent: <Collapse in={true} />
         self._props += ",".join(
             json.dumps(key.rstrip("_")) + ":" + self._frame.serialize(value)
