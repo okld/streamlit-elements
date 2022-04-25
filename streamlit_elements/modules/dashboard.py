@@ -3,7 +3,7 @@ from streamlit_elements.core.frame import new_element
 
 class Dashboard:
 
-    def item(self, i, x, y, w, h, **props):
+    def Item(self, i, x, y, w, h, **props):
         return {"i": i, "x": x, "y": y, "w": w, "h": h, **props}
 
     def Grid(self, layout, **props):
