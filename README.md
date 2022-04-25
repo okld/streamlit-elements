@@ -1,7 +1,5 @@
-✨ Streamlit Elements
+✨ Streamlit Elements &nbsp; [![GitHub][github_badge]][github_link] [![PyPI][pypi_badge]][pypi_link]
 =====================
-
-[![GitHub][github_badge]][github_link] [![PyPI][pypi_badge]][pypi_link]
 
 Create a draggable and resizable dashboard in Streamlit, featuring Material UI widgets, Monaco editor (Visual Studio Code), Nivo charts, and more!
 
@@ -28,11 +26,16 @@ Getting started
 
 ### 1. Introduction
 
+Streamlit Elements is a component that gives you the tools to compose beautiful applications with Material UI widgets, Monaco, Nivo charts, and more.
+It also includes a feature to create draggable and resizable dashboards.
+
 #### Installation
 
 ```sh
-pip install streamlit-elements
+pip install streamlit-elements==0.1.*
 ```
+
+**Caution**: It is recommended to pin the version to `0.1.*`. Future versions might introduce breaking API changes.
 
 #### Available elements and objects
 
@@ -44,10 +47,10 @@ elements  | Create a frame where elements will be displayed.
 dashboard | Build a draggable and resizable dashboard.
 mui       | Material UI (MUI) widgets and icons.
 html      | HTML objects.
-monaco    | Monaco code and diff editor that powers Visual Studio Code.
+editor    | Monaco code and diff editor that powers Visual Studio Code.
 nivo      | Nivo chart library.
 media     | Media player.
-sync      | Callback to synchronize Streamlit's session state with elements' events data.
+sync      | Callback to synchronize Streamlit's session state with elements events data.
 lazy      | Defer a callback call until another non-lazy callback is called.
 
 #### Caution
@@ -66,23 +69,27 @@ lazy      | Defer a callback call until another non-lazy callback is called.
 
 from streamlit_elements import elements, mui, html
 
-# Elements can't display outside of this frame.
-# Native Streamlit widgets will NOT display inside this frame.
+# Create a frame where Elements widgets will be displayed.
+#
+# Elements widgets will not render outside of this frame.
+# Native Streamlit widgets will not render inside this frame.
 #
 # elements() takes a key as parameter.
 # This key can't be reused by another frame or Streamlit widget.
 
 with elements("new_element"):
 
-    # In this example, "Hello world" is a children of typography.
+    # Let's create a Typography element with "Hello world" as children.
+    # The first step is to check Typography's documentation on MUI:
+    # https://mui.com/components/typography/
     #
-    # Equivalent React JSX code:
+    # Here is how you would write it in React JSX:
     #
     # <Typography>
     #   Hello world
     # </Typography>
 
-    mui.typography("Hello world")
+    mui.Typography("Hello world")
 ```
 - MUI Typography: https://mui.com/components/typography/
 
@@ -93,8 +100,7 @@ with elements("new_element"):
 ```python
 with elements("multiple_children"):
 
-    # You have access to Material UI icons using: mui.icon.icon_name_here
-    # Icons must be written in snake_case, not in camelCase nor in PascalCase.
+    # You have access to Material UI icons using: mui.icon.IconNameHere
     #
     # Multiple children can be added in a single element.
     #
@@ -104,13 +110,13 @@ with elements("multiple_children"):
     #   Hello world
     # </Button>
 
-    mui.button(
-        mui.icon.emoji_people,
-        mui.icon.double_arrow,
+    mui.Button(
+        mui.icon.EmojiPeople,
+        mui.icon.DoubleArrow,
         "Button with multiple children"
     )
 
-    # You can also add children to an element using the 'with' syntax.
+    # You can also add children to an element using a 'with' statement.
     #
     # <Button>
     #   <EmojiPeople />
@@ -120,10 +126,10 @@ with elements("multiple_children"):
     #   </Typography>
     # </Button>
 
-    with mui.button:
-        mui.icon.emoji_people()
-        mui.icon.double_arrow()
-        mui.typography("Button with multiple children")
+    with mui.Button:
+        mui.icon.EmojiPeople()
+        mui.icon.DoubleArrow()
+        mui.Typography("Button with multiple children")
 ```
 - MUI button: https://mui.com/components/buttons/
 - MUI icons: https://mui.com/components/material-icons/
@@ -135,7 +141,7 @@ with elements("multiple_children"):
 ```python
 with elements("nested_children"):
 
-    # You can nest children using 'with'.
+    # You can nest children using multiple 'with' statements.
     #
     # <Paper>
     #   <Typography>
@@ -144,8 +150,8 @@ with elements("nested_children"):
     #   </Typography>
     # </Paper>
 
-    with mui.paper:
-        with mui.typography:
+    with mui.Paper:
+        with mui.Typography:
             html.p("Hello world")
             html.p("Goodbye world")
 ```
@@ -159,28 +165,32 @@ with elements("nested_children"):
 with elements("properties"):
 
     # You can add properties to elements with named parameters.
-    # Properties must be written in snake_case, not in camelCase nor in PascalCase.
+    #
+    # To find all available parameters for a given element, you can
+    # refer to its related documentation on mui.com for MUI widgets,
+    # on https://microsoft.github.io/monaco-editor/ for Monaco editor,
+    # and so on.
     #
     # <Paper elevation={3} variant="outlined" square>
     #   <TextField label="My text input" defaultValue="Type here" variant="outlined" />
     # </Paper>
 
-    with mui.paper(elevation=3, variant="outlined", square=True):
-        mui.text_field(
+    with mui.Paper(elevation=3, variant="outlined", square=True):
+        mui.TextField(
             label="My text input",
-            default_value="Type here",
+            defaultValue="Type here",
             variant="outlined",
         )
 
-    # If you must pass a parameter which is also a Python keyword, use a dictionary
-    # to avoid a syntax error.
+    # If you must pass a parameter which is also a Python keyword, you can append an
+    # underscore to avoid a syntax error.
     #
     # <Collapse in />
 
-    mui.collapse(**{"in": True})
+    mui.Collapse(in_=True)
 
-    # Syntax error: 'in' is a Python keyword:
     # mui.collapse(in=True)
+    # > Syntax error: 'in' is a Python keyword:
 ```
 - MUI text field: https://mui.com/components/text-fields/
 
@@ -191,7 +201,7 @@ with elements("properties"):
 ##### 2.5.1. Material UI elements
 
 ```python
-with elements("style_mui_sx")
+with elements("style_mui_sx"):
 
     # For Material UI elements, use the 'sx' property.
     #
@@ -207,7 +217,7 @@ with elements("style_mui_sx")
     #   Some text in a styled box
     # </Box>
 
-    mui.box(
+    mui.Box(
         "Some text in a styled box",
         sx={
             "bgcolor": "background.paper",
@@ -257,6 +267,8 @@ with elements("style_elements_css"):
 #### 3.1. Retrieve an element's data
 
 ```python
+import streamlit as st
+
 with elements("callbacks_retrieve_data"):
 
     # Some element allows executing a callback on specific event.
@@ -273,22 +285,22 @@ with elements("callbacks_retrieve_data"):
     #   onChange={handleChange}
     # />
 
-    # Initialize a new item in session state called "text"
+    # Initialize a new item in session state called "my_text"
     if "my_text" not in st.session_state:
         st.session_state.my_text = ""
 
-    # When our text field changes, this function will be called.
+    # When text field changes, this function will be called.
     # To know which parameters are passed to the callback,
     # you can refer to the element's documentation.
     def handle_change(event):
         st.session_state.my_text = event.target.value
 
     # Here we display what we have typed in our text field
-    mui.typography(st.session_state.my_text)
+    mui.Typography(st.session_state.my_text)
 
-    # And here we give our 'handle_change' callback to the 'on_change'
+    # And here we give our 'handle_change' callback to the 'onChange'
     # property of the text field.
-    mui.text_field(label="Input some text here", on_change=handle_change)
+    mui.TextField(label="Input some text here", onChange=handle_change)
 ```
 - MUI text field event: https://mui.com/components/text-fields/#uncontrolled-vs-controlled
 - MUI text field API: https://mui.com/api/text-field/
@@ -301,9 +313,9 @@ with elements("callbacks_retrieve_data"):
 with elements("callbacks_sync"):
 
     # If you just want to store callback parameters into Streamlit's session state
-    # like above, you can also use the special callback function sync().
+    # like above, you can also use the special function sync().
     #
-    # When an on_change event occurs, the callback is called with an event data object
+    # When an onChange event occurs, the callback is called with an event data object
     # as argument. In the example below, we are synchronizing that event data object with
     # the session state item 'my_event'.
     #
@@ -325,8 +337,8 @@ with elements("callbacks_sync"):
     else:
         text = ""
 
-    mui.typography(text)
-    mui.text_field(label="Input some text here", on_change=sync("my_event"))
+    mui.Typography(text)
+    mui.TextField(label="Input some text here", onChange=sync("my_event"))
 ```
 
 ---
@@ -363,29 +375,29 @@ with elements("callbacks_lazy"):
         st.session_state.last_name = event
 
     # Display first name and last name
-    mui.typography("Your first name: ", first_name)
-    mui.typography("Your last name: ", last_name)
+    mui.Typography("Your first name: ", first_name)
+    mui.Typography("Your last name: ", last_name)
 
-    # Lazily synchronize on_change with first_name and last_name state.
+    # Lazily synchronize onChange with first_name and last_name state.
     # Inputting some text won't synchronize the value yet.
-    mui.text_field(label="First name", on_change=lazy(sync("first_name")))
+    mui.TextField(label="First name", onChange=lazy(sync("first_name")))
 
     # You can also pass regular python functions to lazy().
-    mui.text_field(label="Last name", on_change=lazy(set_last_name))
+    mui.TextField(label="Last name", onChange=lazy(set_last_name))
 
-    # Here we give a non-lazy callback to on_click using sync().
-    # We are not interested in getting on_click event data object,
+    # Here we give a non-lazy callback to onClick using sync().
+    # We are not interested in getting onClick event data object,
     # so we call sync() with no argument.
     #
     # You can use either sync() or a regular python function.
     # As long as the callback is not wrapped with lazy(), its invocation will
     # also trigger every other defered callbacks.
-    mui.button("Update first namd and last name", on_click=sync())
+    mui.Button("Update first namd and last name", onClick=sync())
 ```
 
 ---
 
-#### 3.4. Invoke a callback when a sequence is pressed using event.on_hotkey()
+#### 3.4. Invoke a callback when a sequence is pressed using event.Hotkey()
 
 ```python
 with elements("callbacks_hotkey"):
@@ -403,22 +415,22 @@ with elements("callbacks_hotkey"):
     def hotkey_pressed():
         print("Hotkey pressed")
 
-    event.on_hotkey("g", hotkey_pressed)
+    event.Hotkey("g", hotkey_pressed)
 
     # If you want your hotkey to work even in text fields, set bind_inputs to True.
-    event.on_hotkey("h", hotkey_pressed, bind_inputs=True)
-    mui.text_field(label="Try pressing 'h' while typing some text here.")
+    event.Hotkey("h", hotkey_pressed, bindInputs=True)
+    mui.TextField(label="Try pressing 'h' while typing some text here.")
 
     # If you want to override default hotkeys (ie. ctrl+f to search in page),
-    # set override_default to True.
-    event.on_hotkey("ctrl+f", hotkey_pressed, override_default=True)
+    # set overrideDefault to True.
+    event.Hotkey("ctrl+f", hotkey_pressed, overrideDefault=True)
 ```
 - Mousetrap: https://craig.is/killing/mice
 - Github page: https://github.com/ccampbell/mousetrap
 
 ---
 
-#### 3.5. Invoke a callback periodically using event.on_interval()
+#### 3.5. Invoke a callback periodically using event.Interval()
 
 ```python
 with elements("callbacks_interval"):
@@ -430,7 +442,7 @@ with elements("callbacks_interval"):
     def call_every_second():
         print("Hello world")
 
-    event.on_interval(1, call_every_second)
+    event.Interval(1, call_every_second)
 ```
 
 ---
@@ -446,38 +458,34 @@ with elements("dashboard"):
     from streamlit_elements import dashboard
 
     # First, build a default layout for every element you want to include in your dashboard
-    #
-    # /!\ Properties must be written in snake_case, not in camelCase nor in PascalCase /!\
 
     layout = [
         # Parameters: element_identifier, x_pos, y_pos, width, height, [item properties...]
-        dashboard.item("first_item", 0, 0, 2, 2),
-        dashboard.item("second_item", 2, 0, 2, 2, is_draggable=False, moved=False),
-        dashboard.item("third_item", 0, 2, 1, 1, is_resizable=False),
+        dashboard.Item("first_item", 0, 0, 2, 2),
+        dashboard.Item("second_item", 2, 0, 2, 2, isDraggable=False, moved=False),
+        dashboard.Item("third_item", 0, 2, 1, 1, isResizable=False),
     ]
 
     # Next, create a dashboard layout using the 'with' syntax. It takes the layout
-    # as first parameter, plus additional properties you can find here:
-    #
-    # /!\ Properties must be written in snake_case, not in camelCase nor in PascalCase /!\
+    # as first parameter, plus additional properties you can find in the GitHub links below.
 
-    with dashboard(layout):
-        mui.paper("First item", key="first_item")
-        mui.paper("Second item (cannot drag)", key="second_item")
-        mui.paper("Third item (cannot resize)", key="third_item")
+    with dashboard.Grid(layout):
+        mui.Paper("First item", key="first_item")
+        mui.Paper("Second item (cannot drag)", key="second_item")
+        mui.Paper("Third item (cannot resize)", key="third_item")
 
-    # If you want to retrieve updated layout values after user interactions,
-    # you can pass a callback to the on_layout_change event.
+    # If you want to retrieve updated layout values as the user move or resize dashboard items,
+    # you can pass a callback to the onLayoutChange event parameter.
 
     def handle_layout_change(updated_layout):
         # You can save the layout in a file, or do anything you want with it.
-        # You can pass it back to dashboard() if you want to restore a saved layout.
+        # You can pass it back to dashboard.Grid() if you want to restore a saved layout.
         print(updated_layout)
 
-    with dashboard(layout, on_layout_change=handle_layout_change):
-        mui.paper("First item", key="first_item")
-        mui.paper("Second item (cannot drag)", key="second_item")
-        mui.paper("Third item (cannot resize)", key="third_item")
+    with dashboard.Grid(layout, onLayoutChange=handle_layout_change):
+        mui.Paper("First item", key="first_item")
+        mui.Paper("Second item (cannot drag)", key="second_item")
+        mui.Paper("Third item (cannot resize)", key="third_item")
 ```
 - Dashboard item properties: https://github.com/react-grid-layout/react-grid-layout#grid-item-props
 - Dashboard grid properties (Streamlit Elements uses the Responsive grid layout):
@@ -496,27 +504,28 @@ with elements("monaco_editors"):
     # Streamlit Elements embeds Monaco code and diff editor that powers Visual Studio Code.
     # You can configure editor's behavior and features with the 'options' parameter.
     #
-    # Elements uses an unofficial React implementation.
+    # Streamlit Elements uses an unofficial React implementation (GitHub links below for
+    # documentation).
 
-    from streamlit_elements import monaco
+    from streamlit_elements import editor
 
     if "content" not in st.session_state:
         st.session_state.content = "Default value"
 
-    mui.typography("Content: ", st.session_state.content)
+    mui.Typography("Content: ", st.session_state.content)
 
     def update_content(value):
         st.session_state.content = value
 
-    monaco.editor(
+    editor.Monaco(
         height=300,
-        default_value=st.session_state.content,
-        on_change=lazy(update_content)
+        defaultValue=st.session_state.content,
+        onChange=lazy(update_content)
     )
 
-    mui.button("Update content", on_click=sync())
+    mui.Button("Update content", onClick=sync())
 
-    monaco.diff(
+    editor.MonacoDiff(
         original="Happy Streamlit-ing!",
         modified="Happy Streamlit-in' with Elements!",
         height=300,
@@ -524,8 +533,8 @@ with elements("monaco_editors"):
 ```
 - Monaco examples and properties: https://github.com/suren-atoyan/monaco-react
 - Code editor options: https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.IStandaloneEditorConstructionOptions.html
-- Diff editor options:  https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.IStandaloneDiffEditorConstructionOptions.html
-- Monaco project page:  https://microsoft.github.io/monaco-editor/
+- Diff editor options: https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.IStandaloneDiffEditorConstructionOptions.html
+- Monaco project page: https://microsoft.github.io/monaco-editor/
 
 ---
 
@@ -546,19 +555,19 @@ with elements("nivo_charts"):
         { "taste": "sunny", "chardonay": 119, "carmenere": 94, "syrah": 103 },
     ]
 
-    with mui.box(sx={"height": 500}):
-        nivo.radar(
+    with mui.Box(sx={"height": 500}):
+        nivo.Radar(
             data=DATA,
             keys=[ "chardonay", "carmenere", "syrah" ],
-            index_by="taste",
-            value_format=">-.2f",
+            indexBy="taste",
+            valueFormat=">-.2f",
             margin={ "top": 70, "right": 80, "bottom": 40, "left": 80 },
-            border_color={ "from": "color" },
-            grid_label_offset=36,
-            dot_size=10,
-            dot_color={ "theme": "background" },
-            dot_border_width=2,
-            motion_config="wobbly",
+            borderColor={ "from": "color" },
+            gridLabelOffset=36,
+            dotSize=10,
+            dotColor={ "theme": "background" },
+            dotBorderWidth=2,
+            motionConfig="wobbly",
             legends=[
                 {
                     "anchor": "top-left",
@@ -605,10 +614,10 @@ with elements("media_player"):
     # Play video from many third-party sources: YouTube, Facebook, Twitch,
     # SoundCloud, Streamable, Vimeo, Wistia, Mixcloud, DailyMotion and Kaltura.
     #
-    # Element powered by ReactPlayer.
+    # This element is powered by ReactPlayer (GitHub link below).
 
     from streamlit_elements import media
 
-    media.player(url="https://www.youtube.com/watch?v=iik25wqIuFo", controls=True)
+    media.Player(url="https://www.youtube.com/watch?v=iik25wqIuFo", controls=True)
 ```
 - ReactPlayer properties: https://github.com/cookpete/react-player#props
