@@ -138,7 +138,7 @@ class ElementsCallbackData(dict):
         try: 
             return self.__getitem__(value)
         except:
-            raise AttributeError('{value} is not a valid attribute')
+            raise AttributeError(f'{value} is not a valid attribute')
 
 def _get_parameters(function):
     return (
