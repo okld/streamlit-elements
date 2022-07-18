@@ -135,8 +135,10 @@ class ElementsCallbackData(dict):
     __slots__ = ()
 
     def __getattr__(self, value):
-        return self.__getitem__(value)
-
+        try: 
+            return self.__getitem__(value)
+        except:
+            raise AttributeError(f'{value} is not a valid attribute')
 
 def _get_parameters(function):
     return (
