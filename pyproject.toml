@@ -1,0 +1,28 @@
+[project]
+name = "streamlit_elements"
+version = "0.1.1"
+description = "React Components for Streamlit."
+requires-python = ">=3.6"
+# long_description = file: README.md
+# long_description_content_type = text/markdown
+authors = [
+  {name = "okld"},
+  {name = "Yao Sikai", email = "yaosk@dp.tech"},
+]
+license = {text = "MIT License"}
+dependencies = [
+  "streamlit >= 1.4.0"
+]
+
+# [options]
+# packages = find:
+# include_package_data = true
+
+[tool.setuptools]
+packages = ["streamlit_elements"]
+
+[project.urls]
+home_page = "https://github.com/okld/streamlit-elements"
+
+[build-system]
+requires = ["setuptools >= 61.0.0", "wheel"]

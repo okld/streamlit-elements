@@ -6,6 +6,7 @@ from streamlit_elements.modules.html import HTML
 from streamlit_elements.modules.media import Media
 from streamlit_elements.modules.mui import MUI
 from streamlit_elements.modules.nivo import Nivo
+from streamlit_elements.modules.echarts import Echarts
 
 __all__ = [
     "dashboard",
@@ -16,6 +17,7 @@ __all__ = [
     "media",
     "mui",
     "nivo",
+    "echarts",
     "partial",
     "sync",
 ]
@@ -28,3 +30,4 @@ html = HTML()
 media = Media()
 mui = MUI()
 nivo = Nivo()
+echarts = Echarts()

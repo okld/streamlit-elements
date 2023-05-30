@@ -17,11 +17,14 @@ import loadMuiElements from "./modules/mui/Elements"
 import loadMuiIcons from "./modules/mui/Icons"
 import loadMuiLab from "./modules/mui/Lab"
 import loadNivo from "./modules/charts/Nivo"
+import loadEcharts from "./modules/charts/Echarts"
 import loadPlayer from "./modules/media/Player"
 
 const loaders: ElementsLoaderRecord = {
   // Charts
   chartNivo: loadNivo,
+  // Echarts
+  echarts: loadEcharts,
 
   // Dashboard
   dashboardGrid: loadGrid,
