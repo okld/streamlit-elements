@@ -19,10 +19,13 @@ const Grid = ({ children, ...props }: ElementsDashboardGridProps) => (
     <ResponsiveGridLayout {...props}>
       {[children].flat().map(child => {
         if (React.isValidElement(child) && child.key !== undefined) {
+          //@ts-ignore
           if (!child.props.hasOwnProperty("style")) {
+            //@ts-ignore
             child.props.style = {}
           }
 
+          //@ts-ignore
           const style = child.props.style
           style.height = "100%"
           style.width = "100%"

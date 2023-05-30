@@ -44,9 +44,9 @@ const elements: ElementsRecord = {
   TreeMapCanvas: dynamic(() => import("@nivo/treemap").then(m => m.ResponsiveTreeMapCanvas), { loading: ElementsLoading, ssr: false }),
   TreeMapHtml: dynamic(() => import("@nivo/treemap").then(m => m.ResponsiveTreeMapHtml), { loading: ElementsLoading, ssr: false }),
   Voronoi: dynamic(() => import("@nivo/voronoi").then(m => m.ResponsiveVoronoi), { loading: ElementsLoading, ssr: false }),
-  Waffle: dynamic(() => import("@nivo/waffle").then(m => m.ResponsiveWaffle), { loading: ElementsLoading, ssr: false }),
-  WaffleCanvas: dynamic(() => import("@nivo/waffle").then(m => m.ResponsiveWaffleCanvas), { loading: ElementsLoading, ssr: false }),
-  WaffleHtml: dynamic(() => import("@nivo/waffle").then(m => m.ResponsiveWaffleHtml), { loading: ElementsLoading, ssr: false }),
+  // Waffle: dynamic(() => import("@nivo/waffle").then(m => m.ResponsiveWaffle), { loading: ElementsLoading, ssr: false }),
+  // WaffleCanvas: dynamic(() => import("@nivo/waffle").then(m => m.ResponsiveWaffleCanvas), { loading: ElementsLoading, ssr: false }),
+  // WaffleHtml: dynamic(() => import("@nivo/waffle").then(m => m.ResponsiveWaffleHtml), { loading: ElementsLoading, ssr: false }),
 }
 
 const loadNivo: ElementsLoader = element => elements[element]

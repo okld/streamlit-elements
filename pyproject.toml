@@ -14,13 +14,6 @@ dependencies = [
   "streamlit >= 1.4.0"
 ]
 
-# [options]
-# packages = find:
-# include_package_data = true
-
-[tool.setuptools]
-packages = ["streamlit_elements"]
-
 [project.urls]
 home_page = "https://github.com/okld/streamlit-elements"
 

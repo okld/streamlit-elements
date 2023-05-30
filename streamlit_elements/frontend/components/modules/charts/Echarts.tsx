@@ -28,7 +28,7 @@ const BasicCharts = (props: any) => {
         height: size.height
       });
     }
-  }, [chartDiv.current, props.option, size]);
+  }, [chartDiv.current, props.option, size, chartInstance, renderChart]);
 
   return <div style={{ height: "100%", width: "100%" }} ref={chartDiv}></div>
 }
