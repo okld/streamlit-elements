@@ -1,6 +1,6 @@
 [project]
 name = "streamlit_elements"
-version = "0.1.1"
+version = "0.2.0"
 description = "React Components for Streamlit."
 requires-python = ">=3.6"
 # long_description = file: README.md
@@ -13,6 +13,9 @@ license = {text = "MIT License"}
 dependencies = [
   "streamlit >= 1.4.0"
 ]
+
+[tool.setuptools]
+packages = ["streamlit_elements"]
 
 [project.urls]
 home_page = "https://github.com/okld/streamlit-elements"
