@@ -44,18 +44,10 @@ const MetricTable = (props: any) => {
   // <Box sx={{ height: 400, width: '100%' }}>
   return (
     <Box
-      sx={{
-        // height: 400,
-        // width: '100%',
-        '& .cold': {
-          color: '#a00000',
-        },
-        '& .hot': {
-          color: '#00a000',
-        },
-      }}
+      // style={{ height: 800, width: '100%' }}
+      sx={props.color_map}
     >
-      <div style={{ height: 400, width: '100%' }}>
+      <div style={{ height: '100%', width: '100%' }}>
         <StripedDataGrid
           autoPageSize
           rows={props.rows}
@@ -65,7 +57,7 @@ const MetricTable = (props: any) => {
           }
           getCellClassName={(params: GridCellParams) => {
             // 'hot' : 'cold'
-            return 'hot';
+            return 'blue';
           }}
         />
       </div>
