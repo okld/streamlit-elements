@@ -19,6 +19,7 @@ import loadMuiLab from "./modules/mui/Lab"
 import loadNivo from "./modules/charts/Nivo"
 import loadEcharts from "./modules/charts/Echarts"
 import loadPlayer from "./modules/media/Player"
+import loadCustomTable from "./modules/table/CustomTable"
 
 const loaders: ElementsLoaderRecord = {
   // Charts
@@ -46,6 +47,9 @@ const loaders: ElementsLoaderRecord = {
   muiElements: loadMuiElements,
   muiIcons: loadMuiIcons,
   muiLab: loadMuiLab,
+
+  // Custom Table
+  customTable: loadCustomTable
 }
 
 const getReplacer = () => {

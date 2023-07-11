@@ -7,6 +7,7 @@ from streamlit_elements.modules.media import Media
 from streamlit_elements.modules.mui import MUI
 from streamlit_elements.modules.nivo import Nivo
 from streamlit_elements.modules.echarts import Echarts
+from streamlit_elements.modules.table import CustomTable
 
 __all__ = [
     "dashboard",
@@ -17,6 +18,7 @@ __all__ = [
     "media",
     "mui",
     "nivo",
+    "customTable",
     "echarts",
     "partial",
     "sync",
@@ -31,3 +33,4 @@ media = Media()
 mui = MUI()
 nivo = Nivo()
 echarts = Echarts()
+customTable = CustomTable()
