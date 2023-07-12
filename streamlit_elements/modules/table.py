@@ -1,9 +1,8 @@
 from streamlit_elements.core.frame import new_element
 
-
 class CustomTable:
     
-    def MetricTable(self, columns, rows, color_map=None, height=400, width="100%", **props):
+    def MetricTable(self, columns, rows, height=400, width="100%", cell_colors=None, color_map=None, **props):
         for col in columns:
             col["editable"] = False
 
@@ -19,5 +18,20 @@ class CustomTable:
                     "color": "#0000ff",
                 },
             }
-        return new_element("customTable", "MetricTable")(columns=columns, rows=rows, color_map=color_map, height=height, width=width, **props)
+        if not cell_colors:
+            _cell_colors = {}
+        else:
+            _cell_colors = dict()
+            for item in cell_colors:
+                _cell_colors.setdefault(item['column'], {})
+
+                if 'value' not in item:
+                    # select all rows
+                    _cell_colors[item['column']] = item['color']
+                elif isinstance(_cell_colors[item['column']], dict):
+                    _cell_colors[item['column']].update({
+                        item['value']: item['color']
+                    })
+        print('----------> _cell_colors', _cell_colors)
+        return new_element("customTable", "MetricTable")(columns=columns, rows=rows, height=height, width=width, cell_colors=_cell_colors, color_map=color_map, **props)
 
