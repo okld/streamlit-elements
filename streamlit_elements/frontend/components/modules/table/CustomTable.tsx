@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import { alpha, styled } from '@mui/material/styles';
-import { GridColDef, DataGrid, GridCellParams, gridClasses, GridValidRowModel } from '@mui/x-data-grid';
+import { GridColDef, DataGrid, GridCellParams, gridClasses, GridValidRowModel, useGridApiRef } from '@mui/x-data-grid';
 
 const ODD_OPACITY = 0.2;
 
@@ -40,23 +40,19 @@ const StripedDataGrid = styled(DataGrid)(({ theme }) => ({
 
 
 const MetricTable = (props: any) => {
-  // pre_rows
-  // <Box sx={{ height: 400, width: '100%' }}>
+  const apiRef = useGridApiRef();
   return (
     <Box
-      // style={{ height: 800, width: '100%' }}
       sx={props.color_map}
     >
-      <div style={{ height: '100%', width: '100%' }}>
+      <div style={{ height: props.height, width: props.witdh }}>
         <StripedDataGrid
-          autoPageSize
           rows={props.rows}
           columns={props.columns}
           getRowClassName={(params) =>
             params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
           }
           getCellClassName={(params: GridCellParams) => {
-            // 'hot' : 'cold'
             return 'blue';
           }}
         />
