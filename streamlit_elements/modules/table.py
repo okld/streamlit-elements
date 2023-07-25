@@ -2,22 +2,21 @@ from streamlit_elements.core.frame import new_element
 
 class CustomTable:
     
-    def MetricTable(self, columns, rows, height=400, width="100%", cell_colors=None, color_map=None, **props):
+    def MetricTable(self, columns, rows, height=400, width="100%", cell_colors=None, **props):
         for col in columns:
             col["editable"] = False
 
-        if not color_map:
-            color_map = {
-                '& .red': {
-                    "color": "#ff0000",
-                },
-                '& .green': {
-                    "color": "#00ff00",
-                },
-                '& .blue': {
-                    "color": "#0000ff",
-                },
-            }
+        _color_map = {
+            '& .red': {
+                "color": "#ff0000",
+            },
+            '& .green': {
+                "color": "#00ff00",
+            },
+            '& .blue': {
+                "color": "#0000ff",
+            },
+        }
         if not cell_colors:
             _cell_colors = {}
         else:
@@ -32,6 +31,5 @@ class CustomTable:
                     _cell_colors[item['column']].update({
                         item['value']: item['color']
                     })
-        print('----------> _cell_colors', _cell_colors)
-        return new_element("customTable", "MetricTable")(columns=columns, rows=rows, height=height, width=width, cell_colors=_cell_colors, color_map=color_map, **props)
+        return new_element("customTable", "MetricTable")(columns=columns, rows=rows, height=height, width=width, cell_colors=_cell_colors, _color_map=_color_map, **props)
 

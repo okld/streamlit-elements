@@ -42,7 +42,7 @@ const StripedDataGrid = styled(DataGrid)(({ theme }) => ({
 const MetricTable = (props: any) => {
   return (
     <Box
-      sx={props.color_map}
+      sx={props._color_map}
     >
       <div style={{ height: props.height, width: props.width }}>
         <StripedDataGrid

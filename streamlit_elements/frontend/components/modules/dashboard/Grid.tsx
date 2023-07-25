@@ -20,7 +20,9 @@ const Grid = ({ children, ...props }: ElementsDashboardGridProps) => (
       {[children].flat().map(child => {
         if (React.isValidElement(child) && child.key !== undefined) {
           let style: any = {}
+          // @ts-ignore
           if (child.props.hasOwnProperty("style")) {
+            // @ts-ignore
             style = child.props.style
           }
 
@@ -28,6 +30,7 @@ const Grid = ({ children, ...props }: ElementsDashboardGridProps) => (
           style["width"] = "100%"
           style["boxSizing"] = "border-box"
 
+          // @ts-ignore
           const new_node = React.cloneElement(child, {style: style})
           return (
             <div key={child.key}>
