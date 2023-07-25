@@ -2,16 +2,16 @@ from streamlit_elements.core.frame import new_element
 
 class CustomTable:
     
-    def MetricTable(self, columns, rows, height=400, width="100%", cell_colors=None, **props):
+    def MetricTable(self, columns, rows, height=400, width="100%", cell_colors=None, _use_toolbar=True, **props):
         for col in columns:
             col["editable"] = False
 
         _color_map = {
             '& .red': {
-                "color": "#ff0000",
+                "color": "#fc2816",
             },
             '& .green': {
-                "color": "#00ff00",
+                "color": "#2ECC71",
             },
             '& .blue': {
                 "color": "#0000ff",
@@ -24,12 +24,20 @@ class CustomTable:
             for item in cell_colors:
                 _cell_colors.setdefault(item['column'], {})
 
-                if 'value' not in item:
+                if 'id' not in item:
                     # select all rows
                     _cell_colors[item['column']] = item['color']
                 elif isinstance(_cell_colors[item['column']], dict):
                     _cell_colors[item['column']].update({
-                        item['value']: item['color']
+                        item['id']: item['color']
                     })
-        return new_element("customTable", "MetricTable")(columns=columns, rows=rows, height=height, width=width, cell_colors=_cell_colors, _color_map=_color_map, **props)
+        return new_element("customTable", "MetricTable")(
+            columns=columns,
+            rows=rows,
+            height=height,
+            width=width,
+            cell_colors=_cell_colors,
+            _color_map=_color_map,
+            _use_toolbar=_use_toolbar,
+            **props)
 

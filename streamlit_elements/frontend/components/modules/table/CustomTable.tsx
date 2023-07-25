@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react"
 import Box from '@mui/material/Box';
 import { alpha, styled } from '@mui/material/styles';
-import { DataGrid, GridCellParams, gridClasses } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar, GridCellParams, gridClasses } from '@mui/x-data-grid';
 
 const ODD_OPACITY = 0.2;
 
@@ -40,6 +40,10 @@ const StripedDataGrid = styled(DataGrid)(({ theme }) => ({
 
 
 const MetricTable = (props: any) => {
+  let slots = {}
+  if(props._use_toolbar === true){
+    slots = {toolbar: GridToolbar}
+  }
   return (
     <Box
       sx={props._color_map}
@@ -48,6 +52,14 @@ const MetricTable = (props: any) => {
         <StripedDataGrid
           rows={props.rows}
           columns={props.columns}
+          slots={slots}
+          initialState={{
+            columns: {
+              columnVisibilityModel: {
+                id: false
+              },
+            },
+          }}
           getRowClassName={(params) =>
             params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
           }
@@ -58,8 +70,7 @@ const MetricTable = (props: any) => {
 
             if(typeof item === "string"){return item}
             if(params.row === undefined){return ''}
-            let col_name = params.field
-            let item1 = item[params.row[col_name]]
+            let item1 = item[params.row["id"]]
             if(typeof item1 === "string"){return item1}
             return '';
           }}
