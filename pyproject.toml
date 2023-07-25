@@ -1,6 +1,6 @@
 [project]
 name = "streamlit_elements"
-version = "0.2.0"
+version = "0.3.0"
 description = "React Components for Streamlit."
 requires-python = ">=3.6"
 # long_description = file: README.md
@@ -22,3 +22,4 @@ home_page = "https://github.com/okld/streamlit-elements"
 
 [build-system]
 requires = ["setuptools >= 61.0.0", "wheel"]
+

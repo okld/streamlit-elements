@@ -1,1 +1,3 @@
 recursive-include streamlit_*/frontend/build *
+recursive-include streamlit_*/core *
+recursive-include streamlit_*/modules *
