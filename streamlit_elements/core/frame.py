@@ -23,8 +23,9 @@ def new_frame(key):
     if ELEMENTS_FRAME_KEY in session_state:
         # An upper frame already exists. Elements created inside this
         # inner frame will be registered in the upper frame instead.
-        yield
-        return
+        # yield
+        # return
+        if ELEMENTS_FRAME_KEY in session_state: del session_state[ELEMENTS_FRAME_KEY]
 
     key = f"{ELEMENTS_FRAME_KEY}.{key}"
     frame = ElementsFrame(key)
@@ -38,12 +39,13 @@ def new_frame(key):
             render_component(js=javascript, key=key, default="{}")
 
     finally:
-        del session_state[ELEMENTS_FRAME_KEY]
+        if ELEMENTS_FRAME_KEY in session_state: del session_state[ELEMENTS_FRAME_KEY]
 
 
 def new_element(module, element):
     if ELEMENTS_FRAME_KEY not in session_state:
-        raise ElementsFrameError("Cannot create element outside a frame.")
+        import streamlit
+        streamlit.experimental_rerun()
 
     return Element(session_state[ELEMENTS_FRAME_KEY], module, element)
 
